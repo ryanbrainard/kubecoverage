@@ -8,16 +8,16 @@ import (
 	"os"
 	"os/signal"
 	"strconv"
-	"syscall"
 )
 
 func main() {
 	log.SetFlags(log.LstdFlags | log.Lshortfile)
 
 	handler := http.NewServeMux()
-	server := http.Server{Addr: "localhost:8080", Handler: handler}
+	server := http.Server{Addr: ":8080", Handler: handler}
 
 	handler.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+		log.Printf("http req %+v", r.URL)
 		inStr := r.URL.Query().Get("size")
 		inInt, err := strconv.Atoi(inStr)
 		if err != nil {
@@ -32,7 +32,8 @@ func main() {
 
 	go func() {
 		c := make(chan os.Signal)
-		signal.Notify(c, syscall.SIGINT, syscall.SIGTERM)
+		//signal.Notify(c, syscall.SIGINT, syscall.SIGTERM)
+		signal.Notify(c)
 		s := <-c
 		log.Printf("signal=%d action=server.Close", s)
 		err := server.Shutdown(context.Background())
@@ -41,6 +42,7 @@ func main() {
 		}
 	}()
 
+	log.Printf("starting server on %s", server.Addr)
 	err := server.ListenAndServe()
 	if err != nil {
 		log.Fatal(err)

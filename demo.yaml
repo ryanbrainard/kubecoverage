@@ -80,7 +80,7 @@ metadata:
   labels:
     app: coverage-downloader
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: coverage-downloader

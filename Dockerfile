@@ -5,7 +5,7 @@ WORKDIR /app
 COPY . .
 
 RUN go get -d -v ./...
-RUN go test -c -covermode=count -coverpkg=./... -o test-exec
+RUN go test -c -covermode=set -coverpkg=./... -o test-exec
 
 EXPOSE 8080
 

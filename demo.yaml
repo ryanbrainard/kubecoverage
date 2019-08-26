@@ -17,6 +17,7 @@ spec:
       port: 80
       protocol: TCP
       targetPort: http
+      nodePort: 30001 # set for demo purposes
   selector:
     app: test-exec
 
@@ -40,15 +41,14 @@ spec:
         app: test-exec
     spec:
       containers:
-        - image: go-test-coverage-demo/test-exec
-          imagePullPolicy: Never
-          name: external-test
+        - image: ryanbrainard/go-test-coverage-demo-test-exec
+          name: test-exec
           ports:
             - name: http
               containerPort: 8080
           volumeMounts:
             - name: coverage
-              mountPath: /coverage
+              mountPath: /tmp/coverage
       volumes:
         - name: coverage
           hostPath:
@@ -70,6 +70,7 @@ spec:
       port: 80
       protocol: TCP
       targetPort: http
+      nodePort: 30002 # set for demo purposes
   selector:
     app: coverage-viewer
 
@@ -83,7 +84,7 @@ metadata:
   labels:
     app: coverage-viewer
 spec:
-  replicas: 1
+  replicas: 2
   selector:
     matchLabels:
       app: coverage-viewer
@@ -92,6 +93,16 @@ spec:
       labels:
         app: coverage-viewer
     spec:
+      affinity:
+        podAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            - labelSelector:
+                matchExpressions:
+                  - key: app
+                    operator: In
+                    values:
+                      - test-exec
+              topologyKey: "kubernetes.io/hostname"
       containers:
         - name: shaas
           image: heroku/shaas
@@ -103,7 +114,7 @@ spec:
               containerPort: 8080
           volumeMounts:
             - name: coverage
-              mountPath: /coverage
+              mountPath: /tmp/coverage
       volumes:
         - name: coverage
           hostPath:

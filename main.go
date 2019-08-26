@@ -1,7 +1,6 @@
 package main
 
 import (
-	"context"
 	"log"
 	"net/http"
 	"os"
@@ -37,15 +36,15 @@ func main() {
 		signal.Notify(c, syscall.SIGINT, syscall.SIGTERM)
 		s := <-c
 		log.Printf("signal=%d action=server.Close", s)
-		err := server.Shutdown(context.Background())
+		err := server.Close()
 		if err != nil {
-			log.Fatal(err)
+			log.Println(err)
 		}
 	}()
 
 	log.Printf("starting server on %s", server.Addr)
 	err := server.ListenAndServe()
 	if err != nil {
-		log.Fatal(err)
+		log.Println(err)
 	}
 }

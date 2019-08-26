@@ -31,7 +31,7 @@ curl 'http://localhost:30001/?size=100'
 kubectl -n go-test-coverage-demo delete pod -l app=test-exec
 
 # Download output
-await_port_forward service/coverage-viewer 30002:http
+await_port_forward service/coverage-downloader 30002:http
 rm demo.cov
 curl -O 'http://localhost:30002/coverage/demo.cov'
 

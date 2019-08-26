@@ -58,9 +58,9 @@ apiVersion: v1
 kind: Service
 metadata:
   namespace: go-test-coverage-demo
-  name: coverage-viewer
+  name: coverage-downloader
   labels:
-    app: coverage-viewer
+    app: coverage-downloader
 spec:
   ports:
     - name: http
@@ -68,7 +68,7 @@ spec:
       protocol: TCP
       targetPort: http
   selector:
-    app: coverage-viewer
+    app: coverage-downloader
 
 ---
 
@@ -76,18 +76,18 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   namespace: go-test-coverage-demo
-  name: coverage-viewer
+  name: coverage-downloader
   labels:
-    app: coverage-viewer
+    app: coverage-downloader
 spec:
   replicas: 2
   selector:
     matchLabels:
-      app: coverage-viewer
+      app: coverage-downloader
   template:
     metadata:
       labels:
-        app: coverage-viewer
+        app: coverage-downloader
     spec:
       affinity:
         podAffinity:

@@ -39,4 +39,55 @@ spec:
           ports:
             - name: http
               containerPort: 8080
+          volumeMounts:
+            - mountPath: /coverage
+              name: coverage
+      volumes:
+        - name: coverage
+          hostPath:
+            path: /tmp/coverage
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: external-test-inspector
+  name: external-test-inspector
+spec:
+  ports:
+    - name: http
+      port: 80
+      protocol: TCP
+      targetPort: http
+  selector:
+    app: external-test-inspector
+  type: NodePort
+
+---
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: external-test-inspector
+  labels:
+    app: external-test-inspector
+spec:
+  containers:
+    - image: heroku/shaas
+      name: shaas
+      env:
+        - name: PORT
+          value: "8080"
+      ports:
+        - name: http
+          containerPort: 8080
+      volumeMounts:
+        - mountPath: /coverage
+          name: coverage
+  volumes:
+    - name: coverage
+      hostPath:
+        path: /tmp/coverage
 

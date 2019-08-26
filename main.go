@@ -26,9 +26,7 @@ func main() {
 			w.Write([]byte(err.Error()))
 			return
 		}
-		outStr := size.Size(inInt)
-		outBytes := []byte(outStr)
-		w.Write(outBytes)
+		w.Write([]byte(size.Size(inInt) + "\n"))
 	})
 
 	go func() {

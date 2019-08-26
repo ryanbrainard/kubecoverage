@@ -20,6 +20,7 @@ docker push ryanbrainard/go-test-coverage-demo-test-exec
 # Deploy to test binary and coverage inspector to cluster
 kubectl delete namespace go-test-coverage-demo
 kubectl apply -f demo.yaml
+sleep 10 # avoid port fwd race
 
 # Run the test
 await_port_forward service/test-exec 30001:http

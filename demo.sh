@@ -32,4 +32,6 @@ kubectl -n go-test-coverage-demo delete pod -l app=test-exec
 # Download output
 await_port_forward service/test-exec 30001:http
 curl -s -O 'http://localhost:30002/tmp/coverage/demo.cov'
+
+# View coverage report
 go tool cover -html demo.cov

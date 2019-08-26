@@ -11,13 +11,11 @@ metadata:
   namespace: go-test-coverage-demo
   name: test-exec
 spec:
-  type: NodePort
   ports:
     - name: http
       port: 80
       protocol: TCP
       targetPort: http
-      nodePort: 30001 # set for demo purposes
   selector:
     app: test-exec
 
@@ -64,13 +62,11 @@ metadata:
   labels:
     app: coverage-viewer
 spec:
-  type: NodePort
   ports:
     - name: http
       port: 80
       protocol: TCP
       targetPort: http
-      nodePort: 30002 # set for demo purposes
   selector:
     app: coverage-viewer
 

@@ -2,12 +2,14 @@ package main
 
 import (
 	"context"
-	"kubecoverage/size"
 	"log"
 	"net/http"
 	"os"
 	"os/signal"
 	"strconv"
+	"syscall"
+
+	"go.ryanbrainard.com/kubernetes-go-test-coverage-demo/size"
 )
 
 func main() {
@@ -32,8 +34,7 @@ func main() {
 
 	go func() {
 		c := make(chan os.Signal)
-		//signal.Notify(c, syscall.SIGINT, syscall.SIGTERM)
-		signal.Notify(c)
+		signal.Notify(c, syscall.SIGINT, syscall.SIGTERM)
 		s := <-c
 		log.Printf("signal=%d action=server.Close", s)
 		err := server.Shutdown(context.Background())

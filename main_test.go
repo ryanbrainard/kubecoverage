@@ -4,7 +4,7 @@ import (
 	"testing"
 )
 
-func TestExternal(t *testing.T) {
+func TestMainExternal(t *testing.T) {
 	// TODO: guard with flag?
 
 	main()

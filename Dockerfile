@@ -9,4 +9,4 @@ RUN go test -c -covermode=set -coverpkg=./... -o test-exec
 
 EXPOSE 8080
 
-ENTRYPOINT exec /app/test-exec -test.v -test.coverprofile=/tmp/coverage/demo.cov
+ENTRYPOINT exec /app/test-exec -test.v -test.coverprofile=/coverage/demo.cov

@@ -46,7 +46,7 @@ spec:
               containerPort: 8080
           volumeMounts:
             - name: coverage
-              mountPath: /tmp/coverage
+              mountPath: /coverage
       volumes:
         - name: coverage
           hostPath:
@@ -110,7 +110,7 @@ spec:
               containerPort: 8080
           volumeMounts:
             - name: coverage
-              mountPath: /tmp/coverage
+              mountPath: /coverage
       volumes:
         - name: coverage
           hostPath:
